@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/
+*.egg-info/
+
+# Node
+node_modules/
+.next/
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+
+# Geospatial data never belongs in git
+*.tif
+*.tiff
+*.vrt
+*.gpkg
+*.shp
+*.shx
+*.dbf
+*.prj
+*.gdb/
+*.las
+*.laz
+*.aux.xml
+*.ovr
+
+# OS and editors
+.DS_Store
+.idea/
+.vscode/
