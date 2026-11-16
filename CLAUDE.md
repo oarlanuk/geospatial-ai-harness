@@ -32,6 +32,10 @@ that doc in the same pull request and say so in the description.
 
 ## Code conventions
 
+Follow `docs/CODING_GUIDELINES.md`. The rule most often missed: every
+conditional and loop gets a full multi-line block. No one-line `if`, no
+`&&`/`||` as control flow, no nested ternaries.
+
 - Folders mirror the architecture: `workspace/`, `harness/`, `geo_tools/`,
   `serving/`, `infra/`.
 - MCP tools are small, typed and tested, with clear inputs and outputs.
