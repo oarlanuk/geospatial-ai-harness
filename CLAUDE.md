@@ -20,6 +20,10 @@ that doc in the same pull request and say so in the description.
 
 ## Technology choices
 
+The full stack, with a status for each choice, is in `docs/TECH_STACK.md`.
+Items marked Proposed or Open there are not decided: ask before building on
+them. The decided ones are:
+
 - Default processing: GDAL and Python (rasterio, GeoPandas).
 - QGIS is optional: a separate headless worker, used only when no GDAL or
   Python equivalent exists, or to reuse an existing QGIS model. Never require
