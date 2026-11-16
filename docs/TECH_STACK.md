@@ -18,7 +18,7 @@ What each part of [the architecture](ARCHITECTURE.md) is built with, and why.
 - **Everything in containers**, so each part runs the same in dev and inside
   the network.
 
-## 1. Workspace (web app)
+## 1. Web app
 
 | Concern | Choice | Status | Why |
 | --- | --- | --- | --- |
@@ -122,7 +122,6 @@ MapLibre's `raster-dem` source expects, from a real 1 m DEM.
 
 ## Effect on the architecture
 
-Adopting this adds one component the architecture does not yet show: a
-Postgres/PostGIS store in "Data and compute" holding the catalogue, published
-vector results, sessions, audit log and job queue. Update `ARCHITECTURE.md`
-and the whiteboard when this is confirmed.
+This stack relies on one shared Postgres/PostGIS store holding the
+catalogue, job queue, workspaces and sessions, audit log and published
+vector results. `ARCHITECTURE.md` shows it under "Data and compute".

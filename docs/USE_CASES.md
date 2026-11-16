@@ -52,12 +52,15 @@ and nothing is written.
 2. Finds the source dataset (use case 1), or uses the one the user named.
 3. States what it will do: source, area, output size estimate, output CRS.
 4. Waits for the user to approve, because a crop writes a new file.
-5. Runs the crop as a job, reading only the windows it needs.
-6. Writes a COG to the results area, registers it in the catalogue with its
-   lineage, and adds it to the map.
+5. Submits the crop as a job and says so at once, with its place in the
+   queue. The user can keep chatting or start other work.
+6. A worker runs the crop, reading only the windows it needs, and reports
+   progress.
+7. Writes a COG to the workspace, registers it in the catalogue with its
+   lineage, and adds it to the map when it finishes.
 
 **Needs:** location resolver, catalogue search, raster clip, publish layer,
-approvals, a job worker (GDAL only).
+approvals, the job queue, a job worker (GDAL only), a workspace.
 
 **Done when**
 - The cropped layer appears on the map and matches the outlined area.
@@ -68,6 +71,13 @@ approvals, a job worker (GDAL only).
 - An area entirely outside the data produces no file and a clear message.
 - A crop over the job size cap is refused before any work starts.
 - Nothing is written unless the user approves.
+- The chat stays usable while the crop runs, and progress is visible.
+- Closing the browser does not stop the job; the layer is in the
+  workspace on return.
+- Asking for the same crop twice does not run it twice.
+- A cancelled crop stops and leaves no partial file.
+- With several users cropping at once, each job finishes and no user's
+  jobs are starved by another's.
 
 ### Location descriptions
 

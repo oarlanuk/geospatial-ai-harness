@@ -7,11 +7,10 @@ architecture" whiteboard. Keep the two in step.
 
 ## Parts
 
-### 1. Web app — `workspace/`
+### 1. Web app — `web/`
 
-Naming: "workspace" now means a user's persistent project space (see
-"Workspaces" below). This part is the web app. The folder keeps its old name
-until it is renamed `web/`.
+Naming: "workspace" means a user's persistent project space (see
+"Workspaces" below), not this part.
 
 - **Chat and commands:** prompts and quick actions for common workflows.
 - **Layer panel:** catalogue browsing and layer styles.
@@ -43,6 +42,9 @@ until it is renamed `web/`.
 - **Job workers:** GDAL and Python by default. A separate QGIS worker starts
   only for tools that declare they need it. Workers pull from the queue.
 - **Snowflake:** vectors and tables.
+- **Postgres and PostGIS:** one shared database for the catalogue, job
+  queue and job records, workspaces and sessions, the audit log, and
+  published vector results.
 - **Asset catalogue:** STAC index of what data exists, where, and what it
   covers.
 - **Network storage:** DEMs, COGs and other rasters. Files stay where they are.
@@ -58,7 +60,7 @@ until it is renamed `web/`.
 ## Flows
 
 **Request path**
-1. The user sends a request from the workspace to the agent loop.
+1. The user sends a request from the web app to the agent loop.
 2. The agent calls geo tools over MCP.
 3. Tools submit jobs to the queue, run SQL in Snowflake, or search the
    catalogue.
@@ -86,7 +88,7 @@ answer directly.
 2. The job joins the queue for its worker type (`gdal` or `qgis`).
 3. A free worker takes it, reports progress, and writes the result.
 4. On completion the result is registered as a layer and an event is sent
-   to the user's workspace. The layer appears, and the agent summarises the
+   to the user's web app. The layer appears, and the agent summarises the
    outcome if the user is still in the session.
 
 **States:** awaiting approval, queued, running, succeeded, failed, cancelled.
@@ -206,7 +208,7 @@ arbitrary code" rule intact.
   retention.
 - How agent sessions persist when the harness runs as several instances.
 - Upload formats to accept first.
-- Rename the `workspace/` folder to `web/`.
 - Catalogue stack: pgstac + stac-fastapi is the working assumption.
-- Job queue technology, and the numbers: per-user limit, queue size, job
-  time limit, and the threshold between the small and heavy lanes.
+- Job queue numbers: per-user limit, queue size, job time limit, and the
+  threshold between the small and heavy lanes. The queue technology is
+  tracked in `TECH_STACK.md`.

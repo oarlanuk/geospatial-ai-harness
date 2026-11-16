@@ -9,7 +9,7 @@ shows the results as map layers (vectors, rasters, DEMs, 3D terrain).
 
 | Folder | Part of the architecture |
 | --- | --- |
-| `workspace/` | Web app: chat, layer panel, approvals, map viewer |
+| `web/` | Web app: chat, layer panel, approvals, map viewer |
 | `harness/` | Agent loop, context, guardrails, session state |
 | `geo_tools/` | MCP servers: raster/DEM, vector/SQL, catalogue search, publish |
 | `serving/` | Tile services, tile cache, layer gateway |

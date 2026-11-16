@@ -1,5 +1,12 @@
 # Contributing
 
+## Current stage
+
+The project is in early design and scaffolding. Commit directly to
+`main`; pull requests are not required yet. Run `make check` before
+every push, because nothing reviews the change before it lands. The
+pull request steps below apply once review is switched back on.
+
 ## One-time setup
 
 ```

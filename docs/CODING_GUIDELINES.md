@@ -161,7 +161,7 @@ production shares. Flaky tests are fixed or deleted the day they flake.
 Lint rule that enforces the block style: `E701` (no statement on the same
 line as `if`, `for` or `while`).
 
-## TypeScript and React (workspace)
+## TypeScript and React (web app)
 
 - `strict` mode on. No `any`; use `unknown` and narrow it.
 - `const` by default. `===` always. Named exports only.

@@ -6,7 +6,7 @@ behavioural tests to write.
 
 Read `docs/ARCHITECTURE.md` before changing anything. It is the source of
 truth for how the parts fit together. If a change alters the design, update
-that doc in the same pull request and say so in the description.
+that doc in the same commit and say so in the commit message.
 
 ## Design rules (flag it before breaking one)
 
@@ -56,7 +56,7 @@ conditional and loop gets a full multi-line block. No one-line `if`, no
 Tests are behavioural only. Do not add tests to raise coverage. Before
 writing one, name the real failure it would catch; if you cannot, skip it.
 
-- Folders mirror the architecture: `workspace/`, `harness/`, `geo_tools/`,
+- Folders mirror the architecture: `web/`, `harness/`, `geo_tools/`,
   `serving/`, `infra/`.
 - MCP tools are small and typed, with clear inputs and outputs, and each
   has behavioural tests of its contract.
@@ -65,12 +65,13 @@ writing one, name the real failure it would catch; if you cannot, skip it.
   and watch for older GDA94 / MGA zone 50 (EPSG:28350) datasets, which need a
   datum transformation, not just a relabel.
 
-## Before you commit or open a pull request
+## Before you commit or push
 
 See `CONTRIBUTING.md`. In short:
 
+- At this stage, commit directly to `main`. Do not open pull requests
+  unless asked.
 - Run `make fix` before every commit.
-- Run `make check` before opening a pull request. Do not open one while it
-  fails, and say in the description that it passed.
+- Run `make check` before every push. Do not push while it fails.
 - Never use `--no-verify`, and never silence a lint or type rule inline to
   get a commit through.
