@@ -22,6 +22,9 @@ architecture" whiteboard. Keep the two in step.
 ### 3. Geo tools (MCP servers) — `geo_tools/`
 - **Raster and DEM tools:** clip, mosaic, reproject, terrain, zonal stats.
 - **Vector and SQL tools:** spatial queries, pushed down to Snowflake.
+- **Location resolver:** turn a place description (named site feature,
+  tenement ID, distance from a feature, coordinates) into an area. It never
+  guesses: ambiguous names come back as candidates for the user to choose.
 - **Catalogue search:** find datasets through the STAC catalogue.
 - **Publish layer:** register a result so the viewer can show it.
 
@@ -60,6 +63,8 @@ Geo tools, data and compute, and serving all run inside the network. The
 agent sees metadata and summaries only.
 
 ## Open decisions
+
+- Where the named site features used by the location resolver are kept.
 
 - Hosting, identity provider and scaling.
 - Viewer library: MapLibre or OpenLayers.
