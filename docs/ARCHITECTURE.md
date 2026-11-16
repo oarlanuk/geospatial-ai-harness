@@ -65,7 +65,6 @@ agent sees metadata and summaries only.
 ## Open decisions
 
 - Where the named site features used by the location resolver are kept.
-
 - Hosting, identity provider and scaling.
 - Viewer library: MapLibre or OpenLayers.
 - Catalogue stack: pgstac + stac-fastapi is the working assumption.
