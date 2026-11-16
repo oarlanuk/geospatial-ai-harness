@@ -35,4 +35,7 @@ that doc in the same pull request and say so in the description.
 - Folders mirror the architecture: `workspace/`, `harness/`, `geo_tools/`,
   `serving/`, `infra/`.
 - MCP tools are small, typed and tested, with clear inputs and outputs.
-- Default CRS: TODO (not yet decided; do not assume one).
+- Default CRS: GDA2020 / MGA zone 50 (EPSG:7850). Outputs use it unless the
+  user asks otherwise. Never assume an input's CRS: read it from the data,
+  and watch for older GDA94 / MGA zone 50 (EPSG:28350) datasets, which need a
+  datum transformation, not just a relabel.

@@ -61,7 +61,6 @@ agent sees metadata and summaries only.
 
 ## Open decisions
 
-- Default CRS.
 - Hosting, identity provider and scaling.
 - Viewer library: MapLibre or OpenLayers.
 - Catalogue stack: pgstac + stac-fastapi is the working assumption.
