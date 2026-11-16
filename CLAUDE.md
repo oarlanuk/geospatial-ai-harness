@@ -1,5 +1,9 @@
 # Instructions for Claude Code
 
+`docs/USE_CASES.md` is the north star. Build in its order, and only build
+what serves a use case listed there. Its "Done when" lists are the
+behavioural tests to write.
+
 Read `docs/ARCHITECTURE.md` before changing anything. It is the source of
 truth for how the parts fit together. If a change alters the design, update
 that doc in the same pull request and say so in the description.
