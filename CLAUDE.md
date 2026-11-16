@@ -24,6 +24,12 @@ that doc in the same pull request and say so in the description.
   VRT indexes over giant mosaics.
 - Find data through the STAC catalogue, not by crawling shares.
 - Push spatial SQL into Snowflake and fetch only the result.
+- Workspaces persist. Sessions, map state and artifacts survive a restart.
+  Every artifact records its lineage. Source data is never written to.
+- Uploads are untrusted data: validated and read, never executed, and never
+  sent through the agent.
+- Skills are instructions only. They compose existing tools, carry no
+  executable content, and cannot widen permissions.
 
 ## Technology choices
 
