@@ -16,7 +16,8 @@ shows the results as map layers (vectors, rasters, DEMs, 3D terrain).
 | `infra/` | Worker images, deployment, STAC catalogue setup |
 | `docs/` | Architecture and decisions |
 
-Start with [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Rules for AI coding
+Start with [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), then
+[docs/TECH_STACK.md](docs/TECH_STACK.md) for what each part is built with. Rules for AI coding
 agents are in [CLAUDE.md](CLAUDE.md).
 
 ## The one rule

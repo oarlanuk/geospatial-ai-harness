@@ -24,6 +24,10 @@ that doc in the same pull request and say so in the description.
 
 ## Technology choices
 
+The full stack, with a status for each choice, is in `docs/TECH_STACK.md`.
+Items marked Proposed or Open there are not decided: ask before building on
+them. The decided ones are:
+
 - Default processing: GDAL and Python (rasterio, GeoPandas).
 - QGIS is optional: a separate headless worker, used only when no GDAL or
   Python equivalent exists, or to reuse an existing QGIS model. Never require
@@ -36,10 +40,28 @@ that doc in the same pull request and say so in the description.
 
 ## Code conventions
 
+Follow `docs/CODING_GUIDELINES.md`. The rule most often missed: every
+conditional and loop gets a full multi-line block. No one-line `if`, no
+`&&`/`||` as control flow, no nested ternaries.
+
+Tests are behavioural only. Do not add tests to raise coverage. Before
+writing one, name the real failure it would catch; if you cannot, skip it.
+
 - Folders mirror the architecture: `workspace/`, `harness/`, `geo_tools/`,
   `serving/`, `infra/`.
-- MCP tools are small, typed and tested, with clear inputs and outputs.
+- MCP tools are small and typed, with clear inputs and outputs, and each
+  has behavioural tests of its contract.
 - Default CRS: GDA2020 / MGA zone 50 (EPSG:7850). Outputs use it unless the
   user asks otherwise. Never assume an input's CRS: read it from the data,
   and watch for older GDA94 / MGA zone 50 (EPSG:28350) datasets, which need a
   datum transformation, not just a relabel.
+
+## Before you commit or open a pull request
+
+See `CONTRIBUTING.md`. In short:
+
+- Run `make fix` before every commit.
+- Run `make check` before opening a pull request. Do not open one while it
+  fails, and say in the description that it passed.
+- Never use `--no-verify`, and never silence a lint or type rule inline to
+  get a commit through.
