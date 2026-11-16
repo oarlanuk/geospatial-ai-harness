@@ -36,9 +36,13 @@ Follow `docs/CODING_GUIDELINES.md`. The rule most often missed: every
 conditional and loop gets a full multi-line block. No one-line `if`, no
 `&&`/`||` as control flow, no nested ternaries.
 
+Tests are behavioural only. Do not add tests to raise coverage. Before
+writing one, name the real failure it would catch; if you cannot, skip it.
+
 - Folders mirror the architecture: `workspace/`, `harness/`, `geo_tools/`,
   `serving/`, `infra/`.
-- MCP tools are small, typed and tested, with clear inputs and outputs.
+- MCP tools are small and typed, with clear inputs and outputs, and each
+  has behavioural tests of its contract.
 - Default CRS: GDA2020 / MGA zone 50 (EPSG:7850). Outputs use it unless the
   user asks otherwise. Never assume an input's CRS: read it from the data,
   and watch for older GDA94 / MGA zone 50 (EPSG:28350) datasets, which need a

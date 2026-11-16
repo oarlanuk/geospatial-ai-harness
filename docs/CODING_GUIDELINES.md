@@ -94,10 +94,48 @@ else:
 - Use structured logs (key and value), never `print` or `console.log`.
 - Never log secrets, tokens or full connection strings.
 
-### Tests and changes
+### Tests
 
-- Every tool and every bug fix comes with a test.
-- Tests use small fixture data checked into the repo, never production shares.
+Behavioural tests only. A test exists to make the app robust, not to raise
+a number. There is no coverage target, and coverage is not a merge gate.
+
+**The bar for adding a test:** name the real failure it would catch. If you
+cannot, do not write it.
+
+1. **Test behaviour through the public surface.** Call the tool, hit the
+   endpoint, or drive the user flow, then assert on the outcome. Never test
+   private functions or internal structure.
+2. **Assert results, not call sequences.** A test must survive a refactor
+   that keeps behaviour the same. If it breaks, the test was wrong: fix or
+   delete it.
+3. **Few realistic tests beat many tiny ones.** Run real GDAL on small
+   fixture rasters with known answers, and a real Postgres in a container.
+   Fake only what we do not control: the Claude API and Snowflake.
+4. **Cover the failures that matter, not every branch.**
+
+**Worth a test**
+- Each MCP tool's contract: one normal case, plus the failures that would
+  hurt in production (missing CRS, wrong datum, nodata, area of interest
+  outside the data, job over the size cap).
+- Guardrails: a write without approval is refused; every tool call is logged.
+- Geospatial correctness: results match known values on fixture data.
+- A regression test for every bug fixed, written to fail before the fix.
+- A handful of end-to-end flows, such as "ask for a hillshade, a layer
+  appears on the map".
+
+**Not worth a test**
+- Getters, constructors, plain data models, and anything the type checker
+  already proves.
+- Behaviour of a library or framework.
+- Tests that only check a mock was called.
+- Snapshot tests of markup or styling.
+- One test per function, written to make a file look covered.
+
+Fixture data is small and checked into the repo. Tests never touch
+production shares. Flaky tests are fixed or deleted the day they flake.
+
+### Changes
+
 - Small pull requests, one purpose each. Formatters and linters run in CI;
   do not argue with them by hand.
 
