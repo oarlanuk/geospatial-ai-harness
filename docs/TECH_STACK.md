@@ -65,8 +65,36 @@ Verify the exact options in the SDK docs when building this.
 | Catalogue ingest | rio-stac, pystac | Proposed | Build STAC items by scanning existing rasters. |
 | Raster outputs | COGs written to a results area on network storage | Proposed | Tile services can read them with no extra step. |
 | Vector outputs | PostGIS tables (small results: GeoJSON) | Proposed | Lets the vector tile server publish results directly. |
-| Job queue | Postgres-backed queue (e.g. Procrastinate) | Open | Avoids running Redis or RabbitMQ at the start. Celery + Redis is the well-trodden alternative; pick after a spike. |
+| Job queue | DBOS Transact (Python), without Conductor | Proposed | Postgres only; per-user limits, priority, deduplication and timeouts are queue options; durable multi-step jobs. Conditional on the spike below. |
 | Source data | Snowflake, network storage | Decided | Existing systems; data stays where it is. |
+
+### Job queue: conditions and fallbacks
+
+The queue sits behind a small interface in the harness (submit, cancel,
+status), so the library can be swapped without touching tools or the web app.
+
+**Spike before this becomes Decided.** Both must pass on a real DEM crop:
+1. Cancel a running crop and confirm the worker stops promptly and leaves no
+   partial file.
+2. Kill a worker mid-job and confirm the job is recovered and completes.
+
+**Known gaps**
+- With several workers and no Conductor, recovery of a dead worker's jobs
+  must be triggered by us (a small watchdog). Self-hosted Conductor does it
+  automatically but needs a paid licence for production.
+- No operator dashboard without Conductor. Our own jobs panel covers users.
+- Strict turn-taking across users, beyond per-user limits, needs the
+  two-queue pattern from the DBOS docs.
+
+**Fallbacks, in order**
+1. DBOS with a Conductor licence, if the watchdog proves fiddly.
+2. Temporal (self-hosted), if the feature gaps bite. It needs its own
+   service cluster.
+3. Procrastinate, if DBOS itself is unsuitable. Postgres only, but per-user
+   limits and multi-step jobs would be ours to build.
+
+Celery with Redis was ruled out: long jobs risk duplicate delivery, and it
+has no per-user concurrency control.
 
 ## 5. Serving (view path)
 
