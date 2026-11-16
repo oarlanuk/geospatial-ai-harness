@@ -18,6 +18,9 @@ package = false
 [tool.ruff]
 line-length = 80
 target-version = "py312"
+# Markdown is excluded: the formatter would rewrite the deliberately bad
+# examples in docs/CODING_GUIDELINES.md.
+extend-exclude = ["*.md"]
 
 [tool.ruff.lint]
 select = [
