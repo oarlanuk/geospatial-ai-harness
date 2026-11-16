@@ -51,3 +51,13 @@ writing one, name the real failure it would catch; if you cannot, skip it.
   user asks otherwise. Never assume an input's CRS: read it from the data,
   and watch for older GDA94 / MGA zone 50 (EPSG:28350) datasets, which need a
   datum transformation, not just a relabel.
+
+## Before you commit or open a pull request
+
+See `CONTRIBUTING.md`. In short:
+
+- Run `make fix` before every commit.
+- Run `make check` before opening a pull request. Do not open one while it
+  fails, and say in the description that it passed.
+- Never use `--no-verify`, and never silence a lint or type rule inline to
+  get a commit through.
