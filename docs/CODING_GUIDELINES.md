@@ -58,10 +58,34 @@ else:
 - Functions do one thing and fit on a screen. Return early on bad input.
 - No magic numbers or strings. Name them as constants, with units in the
   name: `MAX_JOB_PIXELS`, `timeout_seconds`.
-- Types on every public function, in every language.
 - Names are full words: `elevation_raster`, not `elev_rst`.
 - Comments explain why, not what. Delete commented-out code.
 - No dead code, and no abstractions for needs that do not exist yet.
+
+### Types
+
+1. **Type everything.** Every parameter, return value and field has a type.
+   The type checker runs in strict mode in CI and must pass.
+2. **No escape hatches.** No `any` or `Any`, no `# type: ignore` or
+   `@ts-ignore`, no casts (`as`, `cast`) and no non-null `!`. If one is truly
+   unavoidable, it carries a comment saying why.
+3. **Validate at the boundary, trust inside.** Data from outside (API
+   bodies, tool inputs, database rows, files, environment) is parsed into a
+   typed model once, where it enters. Past that point the code relies on
+   the type and does not re-check.
+4. **Closed sets are types, not strings.** Use an enum or literal union for
+   things like job status and worker type. Avoid boolean flag parameters.
+5. **Absence is explicit.** Say `X | None` or `X | undefined` in the type,
+   and handle it with a full `if` block. No sentinel values such as `-1`
+   or `""`.
+6. **Distinct types for things that are easy to swap.** Give IDs and codes
+   their own types (`LayerId`, `JobId`, `EpsgCode`) so the checker catches
+   a mix-up.
+7. **One source of truth across languages.** The web app's API types are
+   generated from the harness API schema. Never copy a type by hand.
+8. **Results are typed, not loose dictionaries.** A function returns a
+   named model. A result that can fail in expected ways returns a tagged
+   union the caller must handle.
 
 ### Errors and logging
 
@@ -91,6 +115,10 @@ else:
   job workers, not in request handlers.
 - Comprehensions are fine for a simple map or filter on one line. Anything
   with a condition and a transform, or nesting, becomes a loop.
+- Types: Pydantic models at boundaries, frozen dataclasses inside. `StrEnum`
+  or `Literal` for closed sets, `NewType` for IDs and codes, `Protocol` for
+  interfaces. No `dict[str, Any]`. Arrays state their element type, for
+  example `npt.NDArray[np.float32]`.
 
 Lint rule that enforces the block style: `E701` (no statement on the same
 line as `if`, `for` or `while`).
@@ -99,6 +127,10 @@ line as `if`, `for` or `while`).
 
 - `strict` mode on. No `any`; use `unknown` and narrow it.
 - `const` by default. `===` always. Named exports only.
+- Types: `interface` for object shapes, literal unions for closed sets,
+  tagged unions for state that has variants (loading, loaded, failed).
+  Every `switch` over a union is exhaustive, checked with `never`. Turn on
+  `noUncheckedIndexedAccess`.
 - Function components and hooks. One component per file.
 - Keep state as local as possible. Server data goes through one data layer,
   not ad hoc `fetch` calls in components.
@@ -120,6 +152,9 @@ Lint rules that enforce the block style: `curly: all`,
 - Handle nodata explicitly on every read and write.
 - Write rasters as COGs, with compression and overviews.
 - State units in names: `buffer_metres`, `resolution_metres`.
+- Spatial values are typed models that carry their CRS. A bounding box is a
+  `BoundingBox` with named fields and an EPSG code, never a bare tuple of
+  four numbers.
 - Check estimated job size against the cap before starting work.
 
 ## MCP tools
@@ -140,6 +175,8 @@ Lint rules that enforce the block style: `curly: all`,
   `SELECT` lists.
 - Always use bound parameters. Never build SQL by joining strings.
 - No `SELECT *`. Name the columns.
+- Columns have explicit types and `NOT NULL` unless absence is meaningful.
+  Geometry columns declare their geometry type and SRID. Cast explicitly.
 - Filter spatially and by attribute in the database. Fetch only the result.
 - Read-only roles for queries. Schema changes go through migrations.
 
