@@ -13,6 +13,9 @@ that doc in the same pull request and say so in the description.
 - Tools are read-only by default. Writes need user approval. Every tool call
   is logged. Job size is capped.
 - No tool that runs arbitrary code.
+- Processing is asynchronous. A tool that does processing submits a job and
+  returns a job ID at once; it never blocks a chat turn. Jobs are durable,
+  idempotent and fair across users.
 - Read large rasters by window or byte range, never whole. Prefer COGs and
   VRT indexes over giant mosaics.
 - Find data through the STAC catalogue, not by crawling shares.
